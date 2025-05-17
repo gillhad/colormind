@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.gillhad.color_mind_challenge.core.navigation.AppNavigation
 import com.gillhad.color_mind_challenge.ui.theme.ColorMindTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,9 +22,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ColorMindTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                 Box(Modifier.padding(innerPadding))
-                }
+                val controller = rememberNavController()
+                    AppNavigation(controller)
             }
         }
     }
