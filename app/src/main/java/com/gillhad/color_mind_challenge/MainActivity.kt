@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.gillhad.color_mind_challenge.ui.theme.Color_mind_challengeTheme
+import com.gillhad.color_mind_challenge.ui.theme.ColorMindTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Color_mind_challengeTheme {
+            ColorMindTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                  Box(Modifier.padding(innerPadding))
                 }
