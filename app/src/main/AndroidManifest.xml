@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:name=".ColorMindChallenge"
         android:theme="@style/Theme.Color_mind_challenge"
+        android:localeConfig="@xml/locale_config"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
