@@ -10,6 +10,7 @@ import com.gillhad.color_mind_challenge.core.navigation.HomeRoute
 import com.gillhad.color_mind_challenge.core.navigation.SettingsRoute
 import com.gillhad.color_mind_challenge.ui.main.screens.home.HomeScreen
 
+
 fun NavGraphBuilder.mainNavGraph(navHostController: NavHostController){
     composable<HomeRoute>{
         HomeScreen()
