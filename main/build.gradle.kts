@@ -49,21 +49,22 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared"))
+    implementation(project(":designSystem"))
+    implementation(project(":navigation"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.navigation)
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
+    implementation(libs.bundles.hilt)
     ksp(libs.hilt.compiler)
 
     implementation(libs.gms.fonts)

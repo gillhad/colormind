@@ -21,5 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "color_mind_challenge"
 include(":app")
-include(":game_presentation")
 include(":main")
+include(":shared")
+include(":designSystem")
+include(":navigation")
