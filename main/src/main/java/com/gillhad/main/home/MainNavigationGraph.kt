@@ -4,29 +4,25 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.gillhad.navigation.GameModeRoute
-import com.gillhad.navigation.GameRoute
-import com.gillhad.navigation.HistoryRoute
-import com.gillhad.navigation.HomeRoute
-import com.gillhad.navigation.SettingsRoute
+import com.gillhad.navigation.NavigationRoute
 
 
 fun NavGraphBuilder.mainNavGraph(navHostController: NavHostController){
-    composable<HomeRoute>{
+    composable<NavigationRoute.HomeRoute>{
         HomeScreen(
             viewModel = hiltViewModel()
         )
     }
-    composable<GameRoute>{
+    composable<NavigationRoute.GameRoute>{
 
     }
-    composable<GameModeRoute>{
+    composable<NavigationRoute.GameModeRoute>{
 
     }
-    composable<SettingsRoute>{
+    composable<NavigationRoute.SettingsRoute>{
 
     }
-    composable<HistoryRoute>{
+    composable<NavigationRoute.HistoryRoute>{
 
     }
 }
