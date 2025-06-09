@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.gillhad.designsystem.composable.spacers.CMElevatedButton
 import com.gillhad.designsystem.theme.AppTypography
 import com.gillhad.main.R
-import com.gillhad.navigation.NavigationEvents
 import com.gillhad.navigation.NavigationRoute
 
 @Composable

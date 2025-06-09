@@ -5,9 +5,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.gillhad.main.home.mainNavGraph
-import com.gillhad.navigation.HomeRoute
 import com.gillhad.navigation.NavigationEvents
 import com.gillhad.navigation.NavigationManager
+import com.gillhad.navigation.NavigationRoute
 
 
 @Composable
@@ -26,7 +26,7 @@ fun AppNavigation(navController: NavHostController, navigationManager: Navigatio
         }
     }
 
-    NavHost(navController, HomeRoute){
+    NavHost(navController, NavigationRoute.HomeRoute){
         mainNavGraph(navController)
     }
 }
