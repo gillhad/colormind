@@ -10,5 +10,7 @@ object RoundedShapes {
 
 
 object BoxSize {
-
+    val smallBox: Dp = 10.dp
+    val mediumBox: Dp = 20.dp
+    val largeBox: Dp = 40.dp
 }

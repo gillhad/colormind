@@ -8,12 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gillhad.main"
+    namespace = "com.gillhad.settings"
     compileSdk = 35
 
     defaultConfig {
         minSdk = 24
-
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -52,16 +51,15 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":designSystem"))
     implementation(project(":navigation"))
-    implementation(project(":settings"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.navigation)
 
