@@ -19,8 +19,8 @@ import com.gillhad.main.R
 import com.gillhad.navigation.NavigationRoute
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
-    HomeScreenContent(onNavigate = { route -> viewModel.navigate(route) })
+fun HomeScreen(homeViewModel: HomeViewModel) {
+    HomeScreenContent(onNavigate = { route -> homeViewModel.navigate(route) })
 }
 
 @Composable
@@ -63,10 +63,11 @@ fun Logo(){
 @Composable
 fun HomeOptions(onNavigate: (NavigationRoute) -> Unit) {
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally) {
+        CMElevatedButton(Modifier,"DAILY") { onNavigate(NavigationRoute.DailyGame) }
         CMElevatedButton(Modifier,"GAME") { onNavigate(NavigationRoute.GameRoute) }
-        CMElevatedButton(Modifier,"GAME OPTIONS") { onNavigate(NavigationRoute.GameRoute) }
-        CMElevatedButton(Modifier,"HISTORY") { onNavigate(NavigationRoute.GameRoute) }
-        CMElevatedButton(Modifier,"SETTINGS") { onNavigate(NavigationRoute.GameRoute) }
+        CMElevatedButton(Modifier,"GAME OPTIONS") { onNavigate(NavigationRoute.GameModeRoute) }
+        CMElevatedButton(Modifier,"HISTORY") { onNavigate(NavigationRoute.HistoryRoute) }
+        CMElevatedButton(Modifier,"SETTINGS") { onNavigate(NavigationRoute.SettingsRoute) }
     }
 }
 

@@ -13,6 +13,11 @@ sealed class NavigationRoute {
     }
 
     @Serializable
+    object DailyGame : NavigationRoute() {
+        override val route: String = AppConstants.DAILY_GAME
+    }
+
+    @Serializable
     object GameRoute : NavigationRoute() {
         override val route: String = AppConstants.GAME
     }

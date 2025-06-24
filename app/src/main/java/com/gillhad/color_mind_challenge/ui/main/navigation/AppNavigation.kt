@@ -16,8 +16,8 @@ fun AppNavigation(navController: NavHostController, navigationManager: Navigatio
         navigationManager.navigationEvents.collect { event ->
             when (event) {
                 is NavigationEvents.NavigateTo -> {
-                    navController.navigate(event.route) {
-                    }
+                    println("navegamos a ${event.route}")
+                    navController.navigate(event.route)
                 }
                 is NavigationEvents.NavigateBack -> {
                     navController.popBackStack()
