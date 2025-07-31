@@ -8,12 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gillhad.main"
+    namespace = "com.gillhad.game"
     compileSdk = 35
 
     defaultConfig {
         minSdk = 24
-
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -51,9 +50,7 @@ android {
 dependencies {
     implementation(project(":shared"))
     implementation(project(":designSystem"))
-    implementation(project(":navigation"))
-    implementation(project(":settings"))
-    implementation(project(":game"))
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 

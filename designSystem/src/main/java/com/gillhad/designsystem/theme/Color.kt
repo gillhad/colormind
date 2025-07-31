@@ -76,5 +76,13 @@ val surfaceContainerHighDark = Color(0xFF262B27)
 val surfaceContainerHighestDark = Color(0xFF303632)
 
 
+val spotColorDefault = Color(0xFFB6B6B6)
+val spotColorGreen = Color(0xFF276A49)
+val spotColorRed = Color(0xFFF44336)
+val spotColorYellow = Color(0xFFFFC107)
+val spotColorPurple = Color(0xFF673AB7)
+val spotColorBlue = Color(0xFF00BCD4)
+
+
 
 

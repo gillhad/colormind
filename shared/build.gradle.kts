@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":designSystem"))
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 
