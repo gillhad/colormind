@@ -15,7 +15,7 @@ class GameScreenData(
 
 
 @Composable
-fun GameScreen (GameViewModel: GameViewModel) {
+fun GameScreen (gameViewModel: GameViewModel) {
     val data = GameScreenData(
         amount = 4
     )
