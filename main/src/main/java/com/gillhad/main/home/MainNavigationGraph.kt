@@ -8,26 +8,26 @@ import com.gillhad.game.GameScreen
 import com.gillhad.navigation.NavigationRoute
 import com.gillhad.settings.SettingsScreen
 
-
-fun NavGraphBuilder.mainNavGraph(navHostController: NavHostController){
-    composable<NavigationRoute.HomeRoute>{
+fun NavGraphBuilder.mainNavGraph(navHostController: NavHostController) {
+    composable<NavigationRoute.HomeRoute> {
         HomeScreen(
             homeViewModel = hiltViewModel()
         )
     }
-    composable<NavigationRoute.GameRoute>{
+    composable<NavigationRoute.GameRoute> {
         GameScreen(
             gameViewModel = hiltViewModel()
         )
     }
-    composable<NavigationRoute.GameModeRoute>{
+    composable<NavigationRoute.GameModeRoute> {
 
     }
-    composable<NavigationRoute.SettingsRoute>{
+    composable<NavigationRoute.SettingsRoute> {
         SettingsScreen(
-            settingsViewModel = hiltViewModel())
+            settingsViewModel = hiltViewModel()
+        )
     }
-    composable<NavigationRoute.HistoryRoute>{
+    composable<NavigationRoute.HistoryRoute> {
 
     }
 }

@@ -67,4 +67,8 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.gms.fonts)
+
+    //DEBUG
+    kspDebug(libs.hilt.compiler)
+    debugImplementation(libs.bundles.debug)
 }

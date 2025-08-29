@@ -39,6 +39,11 @@ fun SpacerVXXLarge(){
 
 
 @Composable
+fun SpacerHXxSmall(){
+    Spacer(Modifier.width(Spacing.xxSmall))
+}
+
+@Composable
 fun SpacerHXSmall(){
     Spacer(Modifier.width(Spacing.xSmall))
 }
