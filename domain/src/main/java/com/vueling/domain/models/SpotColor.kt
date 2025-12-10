@@ -1,4 +1,4 @@
-package com.gillhad.shared.models
+package com.vueling.domain.models
 
 import androidx.compose.ui.graphics.Color
 

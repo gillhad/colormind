@@ -27,6 +27,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,65 +41,32 @@ import com.gillhad.designsystem.theme.BoxSize
 import com.gillhad.designsystem.theme.Spacing
 import com.gillhad.designsystem.theme.outlineDark
 import com.gillhad.designsystem.theme.secondaryDark
-import com.gillhad.designsystem.theme.spotColorBlue
-import com.gillhad.designsystem.theme.spotColorClose
-import com.gillhad.designsystem.theme.spotColorGreen
-import com.gillhad.designsystem.theme.spotColorPurple
-import com.gillhad.designsystem.theme.spotColorRed
-import com.gillhad.designsystem.theme.spotColorValid
-import com.gillhad.designsystem.theme.spotColorYellow
+import com.gillhad.game.models.GameScreenActions
+import com.gillhad.game.models.GameScreenState
 import com.gillhad.shared.SizeConstants.colorGap
 import com.gillhad.shared.composables.OverflowBox
-import com.gillhad.shared.models.ColorRow
-import com.gillhad.shared.models.SpotColor
+import com.vueling.domain.models.ColorRow
+import com.vueling.domain.models.SpotColor
 import kotlin.math.ceil
-
-data class GameScreenData(
-    val amount: Int,
-    val listColorRows: MutableList<ColorRow>,
-    val currentRow: ColorRow,
-    val currentPuzzle: ColorRow,
-    val currentColors: List<Color>,
-    var spotSelected: Int?
-)
-
-data class GameScreenState(
-    val isLoading: () -> Unit,
-    val showSelectColor: () -> Unit,
-    val updateSelectedSpot: () -> Unit
-)
 
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
-    val data = GameScreenData(
-        amount = 4,
-        listColorRows = mutableListOf(),
-        currentRow = ColorRow(5, ""),
-        currentPuzzle = ColorRow(5, ""),
-        currentColors = listOf(
-            spotColorRed, spotColorGreen, spotColorBlue, spotColorPurple, spotColorYellow,
-            spotColorClose, spotColorValid
-        ),
-        spotSelected = 0
-    )
-    val state: GameScreenState = GameScreenState(
-        isLoading = {},
-        showSelectColor = { },
-        updateSelectedSpot = { }
-    )
+    val state by gameViewModel.uiState.collectAsState()
+    val actions = gameViewModel.actions
 
     Scaffold { padding ->
-        GameView(Modifier.padding(padding), data, state)
+        GameView(Modifier.padding(padding), state, actions)
     }
 }
 
 @Composable
-fun GameView(modifier: Modifier, data: GameScreenData, state: GameScreenState) {
-    Body(data, state)
+fun GameView(modifier: Modifier, state: GameScreenState, actions: GameScreenActions) {
+    print("state en la view ${state.currentPuzzle.spotList.size}")
+    Body(state, actions)
 }
 
 @Composable
-private fun Body(data: GameScreenData, state: GameScreenState) {
+private fun Body(state: GameScreenState, actions: GameScreenActions) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -109,9 +78,9 @@ private fun Body(data: GameScreenData, state: GameScreenState) {
                 .fillMaxHeight(0.8f)
                 .fillMaxWidth()
         ) {
-            ColorsView(data.listColorRows)
+            ColorsView(state.listColorRows)
         }
-        CurrentGameColorItemRow(data, state)
+        CurrentGameColorItemRow(state, actions)
     }
 }
 
@@ -160,12 +129,12 @@ private fun ColumnReviewedRows(listColorRow: MutableList<ColorRow>) {
 }
 
 @Composable
-private fun CurrentGameColorItemRow(data: GameScreenData, state: GameScreenState) {
+private fun CurrentGameColorItemRow(state: GameScreenState, actions: GameScreenActions) {
     Box(
         Modifier
             .fillMaxHeight()
     ) {
-        ColorSelector(data.currentColors, data.spotSelected)
+        ColorSelector(state.currentColors, state.spotSelected)
         LazyRow(
             Modifier
                 .fillMaxWidth()
@@ -173,8 +142,8 @@ private fun CurrentGameColorItemRow(data: GameScreenData, state: GameScreenState
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            itemsIndexed(data.currentRow.spotList) { index, spot ->
-                SpotColorsRow(spot, data.spotSelected, index, state.updateSelectedSpot)
+            itemsIndexed(state.currentRow.spotList) { index, spot ->
+                SpotColorsRow(spot, state.spotSelected, index) { actions.onSpotSelected(index) }
             }
         }
     }
@@ -185,7 +154,7 @@ private fun SpotColorsRow(
     spot: SpotColor,
     currentIndex: Int? = null,
     indexSelected: Int? = null,
-    updateSelectedSpot: () -> Unit? = { }
+    updateSpotSelected: ((Int) -> Unit)? = null
 ) {
     SpacerHXxSmall()
     Box {
@@ -212,7 +181,7 @@ private fun SpotColorsRow(
                 .border(BorderStroke(BorderSize.borderS, outlineDark), shape = RoundedCornerShape(50.dp))
                 .clickable(
                     onClick = {
-                        updateSelectedSpot()
+                        updateSpotSelected!!(indexSelected!!)
                     }
                 )
         )
@@ -223,6 +192,7 @@ private fun SpotColorsRow(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ColorSelector(colorsList: List<Color>, spotSelected: Int?) {
+    println("hay cambios en el estado?")
     if (spotSelected == null) return
     val sizeProportion = ceil(colorsList.size.toDouble() / 5) * 20
     val selectorHeight = colorGap + sizeProportion

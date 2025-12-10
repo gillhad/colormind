@@ -13,19 +13,19 @@ import com.gillhad.designsystem.theme.spotColorPurple
 import com.gillhad.designsystem.theme.spotColorRed
 import com.gillhad.designsystem.theme.spotColorValid
 import com.gillhad.designsystem.theme.spotColorYellow
-import com.gillhad.game.GameScreenData
-import com.gillhad.game.GameScreenState
 import com.gillhad.game.GameView
-import modelsMocks.MockColorRow
+import com.gillhad.game.models.GameScreenActions
+import com.gillhad.game.models.GameScreenState
+import com.vueling.domain.models.mocks.MockColorRow
 
 @Preview
 @Composable
 fun GameScreenPreview() {
-    val fakeData = GameScreenData(
+    val fakeData = GameScreenState(
         amount = 4,
         listColorRows = mutableListOf(MockColorRow.getColorRowValidated(), MockColorRow.getColorRowValidated()),
-        currentRow = MockColorRow.getCustomColorRow(spotColorDefault),
-        currentPuzzle = MockColorRow.getCurrentPuzzle(),
+        currentRow = MockColorRow.getCustomColorRowMock(spotColorDefault),
+        currentPuzzle = MockColorRow.getCurrentPuzzleMock(),
         currentColors = listOf(
             spotColorRed,
             spotColorGreen,
@@ -37,10 +37,9 @@ fun GameScreenPreview() {
         ),
         spotSelected = 1
     )
-    val fakeState = GameScreenState(
-        isLoading = {},
-        showSelectColor = {},
-        updateSelectedSpot = { println("clicky"); fakeData.spotSelected = 3 }
+    val fakeState = GameScreenActions(
+        onValidateRow = {},
+        onSpotSelected = { }
     )
     Scaffold { innerPadding ->
         GameView(Modifier.padding(innerPadding), fakeData, fakeState)
