@@ -1,13 +1,7 @@
 package com.vueling.domain.models
 
-import androidx.compose.ui.graphics.Color
+import com.gillhad.shared.enums.PuzzleColors
 
 data class SpotColor(
-    val defaultColor: Color,
-    var selectedColor: Color? = null
-) {
-
-    fun changeColor(color: Color) {
-        selectedColor = color
-    }
-}
+    var selectedColor: PuzzleColors = PuzzleColors.DEFAULT
+)

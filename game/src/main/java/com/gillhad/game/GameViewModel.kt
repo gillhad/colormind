@@ -1,21 +1,12 @@
 package com.gillhad.game
 
 import androidx.lifecycle.ViewModel
-import com.gillhad.designsystem.theme.spotColorBlue
-import com.gillhad.designsystem.theme.spotColorClose
-import com.gillhad.designsystem.theme.spotColorDefault
-import com.gillhad.designsystem.theme.spotColorGreen
-import com.gillhad.designsystem.theme.spotColorPurple
-import com.gillhad.designsystem.theme.spotColorRed
-import com.gillhad.designsystem.theme.spotColorValid
-import com.gillhad.designsystem.theme.spotColorYellow
 import com.gillhad.game.models.GameScreenActions
 import com.gillhad.game.models.GameScreenState
 import com.gillhad.shared.enums.DifficultyLevels.EASY
+import com.gillhad.shared.enums.PuzzleColors
 import com.gillhad.shared.enums.SpotAmountLevels.FOUR_SPOTS
-import com.vueling.domain.PuzzleGenerator
-import com.vueling.domain.models.ColorRow
-import com.vueling.domain.models.mocks.MockColorRow
+import com.vueling.domain.PuzzleManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,38 +15,22 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(var puzzleGenerator: PuzzleGenerator) : ViewModel() {
+class GameViewModel @Inject constructor(var puzzleManager: PuzzleManager) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GameScreenState())
     var uiState: StateFlow<GameScreenState> = _uiState.asStateFlow()
 
     init {
-        val fakeData = GameScreenState(
-            amount = 4,
-            listColorRows = mutableListOf(MockColorRow.getColorRowValidated(), MockColorRow.getColorRowValidated()),
-            currentRow = MockColorRow.getCustomColorRowMock(spotColorDefault),
-            currentPuzzle = MockColorRow.getCurrentPuzzleMock(),
-            currentColors = listOf(
-                spotColorRed,
-                spotColorGreen,
-                spotColorBlue,
-                spotColorPurple,
-                spotColorYellow,
-                spotColorClose,
-                spotColorValid,
-            ),
-            spotSelected = 1
-        )
         initState()
     }
 
     val actions = GameScreenActions(
         onValidateRow = ::validateRow,
-        onSpotSelected = ::updateSpotSelected
+        onSpotSelected = ::updateSpotSelected,
+        onColorSelected = ::updateColorSelected
     )
 
     private fun initState() {
-        println("iniciamos el state")
         getPuzzleAmount()
         getListOfColors()
         generateNewPuzzle()
@@ -70,11 +45,11 @@ class GameViewModel @Inject constructor(var puzzleGenerator: PuzzleGenerator) : 
 
     private fun getListOfColors() {
         _uiState.value.currentColors = listOf(
-            spotColorRed,
-            spotColorGreen,
-            spotColorBlue,
-            spotColorPurple,
-            spotColorYellow
+            PuzzleColors.RED,
+            PuzzleColors.BLUE,
+            PuzzleColors.PURPLE,
+            PuzzleColors.GREEN,
+            PuzzleColors.YELLOW
         )
         //TODO: should be stored in settings
     }
@@ -82,17 +57,15 @@ class GameViewModel @Inject constructor(var puzzleGenerator: PuzzleGenerator) : 
     private fun generateNewPuzzle() {
         _uiState.update {
             it.copy(
-                currentPuzzle = puzzleGenerator.generatePuzzle(FOUR_SPOTS, EASY),
-                currentRow = puzzleGenerator.generateEmptyPuzzle(FOUR_SPOTS)
+                currentPuzzle = puzzleManager.generatePuzzle(FOUR_SPOTS, EASY),
+                currentRow = puzzleManager.generateEmptyPuzzle(FOUR_SPOTS)
 
             )
         }
-        _uiState.value.currentPuzzle =
-            puzzleGenerator.generatePuzzle(FOUR_SPOTS, EASY)
         println(_uiState.value.currentPuzzle.spotList.size)
     }
 
-    private fun updateSpotSelected(spot: Int) {
+    private fun updateSpotSelected(spot: Int?) {
         if (spot == _uiState.value.spotSelected) {
             _uiState.update {
                 it.copy(spotSelected = null)
@@ -103,8 +76,52 @@ class GameViewModel @Inject constructor(var puzzleGenerator: PuzzleGenerator) : 
                 it.copy(spotSelected = spot)
             }
         }
-        println("seleccionando el spot $spot, ${_uiState.value.spotSelected}")
     }
 
-    private fun validateRow(row: ColorRow) {}
+    private fun updateColorSelected(color: PuzzleColors) {
+        val spotSelected = _uiState.value.spotSelected
+        if (spotSelected != null) {
+            val currentRow = _uiState.value.currentRow
+            currentRow.spotList[spotSelected].selectedColor = color
+            _uiState.update {
+                it.copy(
+                    currentRow = currentRow,
+                    spotSelected = null
+                )
+            }
+        }
+    }
+
+    private fun validateRow() {
+        if (!checkAllSpotsFilled()) {
+            println("no has puesto colores")
+            //TODO: when one is no filled, add some UI indication, color shake, toast, etc
+            return
+        }
+        println(
+            "size de listcolors al inicio ${_uiState.value.listColorRows.size}"
+        )
+        val row = _uiState.value.currentRow
+        val validatedRow = puzzleManager.validateRow(row, _uiState.value.currentPuzzle)
+        row.validationList.addAll(validatedRow)
+        val updatedList = _uiState.value.listColorRows + row
+        _uiState.update {
+            it.copy(
+                listColorRows = updatedList,
+                currentRow = puzzleManager.generateEmptyPuzzle(FOUR_SPOTS)
+            )
+        }
+        println(
+            "size de listcolors ${_uiState.value.listColorRows.size}"
+        )
+    }
+
+    private fun checkAllSpotsFilled(): Boolean {
+        _uiState.value.currentRow.spotList.forEach { spot ->
+            if (spot.selectedColor == PuzzleColors.DEFAULT) {
+                return false
+            }
+        }
+        return true
+    }
 }

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,9 +33,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
+import com.gillhad.designsystem.composable.spacers.CMElevatedButton
 import com.gillhad.designsystem.composable.spacers.SpacerHXxSmall
 import com.gillhad.designsystem.theme.BorderSize
 import com.gillhad.designsystem.theme.BoxSize
@@ -43,11 +48,10 @@ import com.gillhad.designsystem.theme.outlineDark
 import com.gillhad.designsystem.theme.secondaryDark
 import com.gillhad.game.models.GameScreenActions
 import com.gillhad.game.models.GameScreenState
-import com.gillhad.shared.SizeConstants.colorGap
 import com.gillhad.shared.composables.OverflowBox
+import com.gillhad.shared.enums.PuzzleColors
 import com.vueling.domain.models.ColorRow
 import com.vueling.domain.models.SpotColor
-import kotlin.math.ceil
 
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
@@ -61,7 +65,6 @@ fun GameScreen(gameViewModel: GameViewModel) {
 
 @Composable
 fun GameView(modifier: Modifier, state: GameScreenState, actions: GameScreenActions) {
-    print("state en la view ${state.currentPuzzle.spotList.size}")
     Body(state, actions)
 }
 
@@ -75,12 +78,18 @@ private fun Body(state: GameScreenState, actions: GameScreenActions) {
         Header()
         Box(
             Modifier
-                .fillMaxHeight(0.8f)
+                .weight(5f)
                 .fillMaxWidth()
         ) {
             ColorsView(state.listColorRows)
         }
-        CurrentGameColorItemRow(state, actions)
+        Box(Modifier.weight(1f)) {
+            CurrentGameColorItemRow(state, actions)
+        }
+        Box(Modifier.weight(1f)) {
+            ConfirmButton { actions.onValidateRow() }
+        }
+
     }
 }
 
@@ -97,15 +106,23 @@ private fun Header() {
 }
 
 @Composable
-private fun ColorsView(listColorRows: MutableList<ColorRow>) {
-    Column {
-        for (row in listColorRows) {
+private fun ColorsView(listColorRows: List<ColorRow>) {
+    LazyColumn {
+        itemsIndexed(listColorRows) { index, row ->
             Row(
                 Modifier
                     .fillMaxWidth()
                     .height(BoxSize.largeBox),
                 horizontalArrangement = Arrangement.Center
             ) {
+                Box(
+                    Modifier
+                        .height(30.dp)
+                        .fillMaxWidth(0.05f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "${index + 1}")
+                }
                 for (spot in row.spotList) {
                     SpotColorsRow(spot)
                 }
@@ -116,7 +133,7 @@ private fun ColorsView(listColorRows: MutableList<ColorRow>) {
                 ) {
                     VerticalDivider()
                 }
-                for (spot in row.validationList!!) {
+                for (spot in row.validationList) {
                     SpotColorsRow(spot)
                 }
             }
@@ -134,7 +151,7 @@ private fun CurrentGameColorItemRow(state: GameScreenState, actions: GameScreenA
         Modifier
             .fillMaxHeight()
     ) {
-        ColorSelector(state.currentColors, state.spotSelected)
+        ColorSelector(state.currentColors, state.spotSelected, actions)
         LazyRow(
             Modifier
                 .fillMaxWidth()
@@ -154,7 +171,7 @@ private fun SpotColorsRow(
     spot: SpotColor,
     currentIndex: Int? = null,
     indexSelected: Int? = null,
-    updateSpotSelected: ((Int) -> Unit)? = null
+    updateSpotSelected: ((Int?) -> Unit)? = null
 ) {
     SpacerHXxSmall()
     Box {
@@ -176,12 +193,12 @@ private fun SpotColorsRow(
         Box(
             Modifier
                 .clip(shape = RoundedCornerShape(50.dp))
-                .background(spot.selectedColor ?: spot.defaultColor)
+                .background(spot.selectedColor.color)
                 .size(30.dp)
                 .border(BorderStroke(BorderSize.borderS, outlineDark), shape = RoundedCornerShape(50.dp))
                 .clickable(
                     onClick = {
-                        updateSpotSelected!!(indexSelected!!)
+                        updateSpotSelected?.invoke(indexSelected)
                     }
                 )
         )
@@ -191,31 +208,42 @@ private fun SpotColorsRow(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ColorSelector(colorsList: List<Color>, spotSelected: Int?) {
-    println("hay cambios en el estado?")
+private fun ColorSelector(colorsList: List<PuzzleColors>, spotSelected: Int?, actions: GameScreenActions) {
     if (spotSelected == null) return
-    val sizeProportion = ceil(colorsList.size.toDouble() / 5) * 20
-    val selectorHeight = colorGap + sizeProportion
-    OverflowBox {
+    Popup(
+        properties = PopupProperties(focusable = true),
+        offset = IntOffset(0, -45),
+        alignment = Alignment.TopCenter,
+        onDismissRequest = { actions.onSpotSelected(spotSelected) }) {
         FlowRow(
             Modifier
-                .offset(0.dp, -selectorHeight.dp)
                 .wrapContentHeight()
                 .clip(RoundedCornerShape(5.dp))
                 .background(secondaryDark)
                 .border(BorderStroke(1.dp, outlineDark), shape = RoundedCornerShape(5.dp)),
-            maxItemsInEachRow = 5
+            maxItemsInEachRow = 5,
+            horizontalArrangement = Arrangement.Center
         ) {
             for (color in colorsList) {
                 Box(
                     Modifier
+                        .clickable(
+                            onClick = { actions.onColorSelected(color) }
+                        )
                         .size(BoxSize.largeBox)
                         .padding(Spacing.xSmall)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(color)
+                        .background(color.color)
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ConfirmButton(onValidateRow: () -> Unit) {
+    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        CMElevatedButton(Modifier, stringResource(com.gillhad.shared.R.string.play)) { onValidateRow() }
     }
 }
 

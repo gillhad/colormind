@@ -12,5 +12,6 @@
     <string name="privacy">Privacy</string>
     <string name="contact">Contacto</string>
 
-
+    //GENERAL
+    <string name="play">Play</string>
 </resources>

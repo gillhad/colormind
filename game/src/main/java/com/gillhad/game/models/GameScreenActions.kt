@@ -1,8 +1,9 @@
 package com.gillhad.game.models
 
-import com.vueling.domain.models.ColorRow
+import com.gillhad.shared.enums.PuzzleColors
 
 data class GameScreenActions(
-    val onValidateRow: (ColorRow) -> Unit,
-    val onSpotSelected: (Int) -> Unit
+    val onValidateRow: () -> Unit,
+    val onSpotSelected: (Int) -> Unit,
+    val onColorSelected: (PuzzleColors) -> Unit
 )

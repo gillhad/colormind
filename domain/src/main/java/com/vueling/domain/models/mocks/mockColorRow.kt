@@ -1,13 +1,6 @@
 package com.vueling.domain.models.mocks
 
-import androidx.compose.ui.graphics.Color
-import com.gillhad.designsystem.theme.spotColorClose
-import com.gillhad.designsystem.theme.spotColorDefault
-import com.gillhad.designsystem.theme.spotColorGreen
-import com.gillhad.designsystem.theme.spotColorPurple
-import com.gillhad.designsystem.theme.spotColorRed
-import com.gillhad.designsystem.theme.spotColorValid
-import com.gillhad.designsystem.theme.spotColorYellow
+import com.gillhad.shared.enums.PuzzleColors
 import com.vueling.domain.models.ColorRow
 import com.vueling.domain.models.SpotColor
 
@@ -15,21 +8,20 @@ abstract class MockColorRow {
     companion object {
 
         fun getBasicSpot(): SpotColor {
-            return SpotColor(spotColorDefault, spotColorDefault)
+            return SpotColor()
         }
 
-        fun getCustomSpotColorMock(color: Color): SpotColor {
-            return SpotColor(spotColorDefault, color)
+        fun getCustomSpotColorMock(color: PuzzleColors): SpotColor {
+            return SpotColor(color)
         }
 
         fun getBasicColorRowMock(): ColorRow {
             return ColorRow(
                 spotList = mutableListOf(getBasicSpot(), getBasicSpot(), getBasicSpot()).toList(),
-                validationList = null
             )
         }
 
-        fun getCustomColorRowMock(color: Color): ColorRow {
+        fun getCustomColorRowMock(color: PuzzleColors): ColorRow {
             return ColorRow(
                 mutableListOf(
                     getCustomSpotColorMock(color),
@@ -44,11 +36,11 @@ abstract class MockColorRow {
         fun getCurrentPuzzleMock(): ColorRow {
             return ColorRow(
                 mutableListOf(
-                    getCustomSpotColorMock(spotColorGreen),
-                    getCustomSpotColorMock(spotColorRed),
-                    getCustomSpotColorMock(spotColorPurple),
-                    getCustomSpotColorMock(spotColorYellow),
-                    getCustomSpotColorMock(spotColorRed)
+                    getCustomSpotColorMock(PuzzleColors.GREEN),
+                    getCustomSpotColorMock(PuzzleColors.RED),
+                    getCustomSpotColorMock(PuzzleColors.PURPLE),
+                    getCustomSpotColorMock(PuzzleColors.YELLOW),
+                    getCustomSpotColorMock(PuzzleColors.BLUE)
                 )
             )
         }
@@ -56,18 +48,18 @@ abstract class MockColorRow {
         fun getColorRowValidated(): ColorRow {
             return ColorRow(
                 mutableListOf(
-                    getCustomSpotColorMock(spotColorGreen),
-                    getCustomSpotColorMock(spotColorRed),
-                    getCustomSpotColorMock(spotColorPurple),
-                    getCustomSpotColorMock(spotColorYellow),
-                    getCustomSpotColorMock(spotColorRed)
+                    getCustomSpotColorMock(PuzzleColors.GREEN),
+                    getCustomSpotColorMock(PuzzleColors.RED),
+                    getCustomSpotColorMock(PuzzleColors.PURPLE),
+                    getCustomSpotColorMock(PuzzleColors.YELLOW),
+                    getCustomSpotColorMock(PuzzleColors.BLUE)
                 ),
                 mutableListOf(
-                    getCustomSpotColorMock(spotColorClose),
-                    getCustomSpotColorMock(spotColorDefault),
-                    getCustomSpotColorMock(spotColorValid),
-                    getCustomSpotColorMock(spotColorClose),
-                    getCustomSpotColorMock(spotColorDefault)
+                    getCustomSpotColorMock(PuzzleColors.GREEN),
+                    getCustomSpotColorMock(PuzzleColors.RED),
+                    getCustomSpotColorMock(PuzzleColors.PURPLE),
+                    getCustomSpotColorMock(PuzzleColors.YELLOW),
+                    getCustomSpotColorMock(PuzzleColors.BLUE)
                 )
             )
         }

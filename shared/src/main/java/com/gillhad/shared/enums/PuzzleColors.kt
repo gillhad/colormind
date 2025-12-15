@@ -11,13 +11,13 @@ import com.gillhad.designsystem.theme.spotColorValid
 import com.gillhad.designsystem.theme.spotColorYellow
 
 enum class PuzzleColors(val color: Color, val isPuzzleColor: Boolean) {
-    DEFAULT(spotColorDefault, true),
     GREEN(spotColorGreen, true),
     RED(spotColorRed, true),
     YELLOW(spotColorYellow, true),
     PURPLE(spotColorPurple, true),
     BLUE(spotColorBlue, true),
 
+    DEFAULT(spotColorDefault, false),
     VALID(spotColorValid, false),
     CLOSE(spotColorClose, false);
 

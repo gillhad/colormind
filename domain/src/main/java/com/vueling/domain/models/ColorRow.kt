@@ -2,7 +2,7 @@ package com.vueling.domain.models
 
 data class ColorRow(
     val spotList: List<SpotColor>,
-    val validationList: MutableList<SpotColor>? = null
+    val validationList: MutableList<SpotColor> = mutableListOf()
 ) {
 
     fun validateRow(): Boolean {
