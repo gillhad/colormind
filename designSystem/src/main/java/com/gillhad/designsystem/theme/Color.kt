@@ -2,7 +2,6 @@ package com.gillhad.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
-
 val primaryLight = Color(0xFF276A49)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFADF2C7)
@@ -74,6 +73,15 @@ val surfaceContainerLowDark = Color(0xFF171D19)
 val surfaceContainerDark = Color(0xFF1B211D)
 val surfaceContainerHighDark = Color(0xFF262B27)
 val surfaceContainerHighestDark = Color(0xFF303632)
+
+val spotColorDefault = Color(0xFFFDF7F7)
+val spotColorGreen = Color(0xFF276A49)
+val spotColorRed = Color(0xFFF44336)
+val spotColorYellow = Color(0xFFFFC107)
+val spotColorPurple = Color(0xFF673AB7)
+val spotColorBlue = Color(0xFF00BCD4)
+val spotColorValid = Color(0xFF6DBB70)
+val spotColorClose = Color(0xFFFF9800)
 
 
 

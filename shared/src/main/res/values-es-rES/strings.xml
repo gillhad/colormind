@@ -6,4 +6,7 @@
     <string name="game_settings">Game settings</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
+
+    //general
+    <string name="play">Jugar</string>
 </resources>

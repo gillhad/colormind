@@ -13,10 +13,10 @@ import com.gillhad.settings.models.SettingsActions
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview(){
+fun SettingsScreenPreview() {
     val musicsSliderState = SliderState(value = 100f)
     val vfxSliderState = SliderState(value = 100f)
-    val sliderStateList = remember { mutableStateListOf<SliderState>(musicsSliderState,vfxSliderState) }
+    val sliderStateList = remember { mutableStateListOf<SliderState>(musicsSliderState, vfxSliderState) }
     val settingsActions = SettingsActions(
         onMusicValueChange = {},
         onSfxValueChange = {},
@@ -25,5 +25,5 @@ fun SettingsScreenPreview(){
         onPrivacyClick = {},
         onContactClick = {}
     )
-    Body(Modifier.padding(),sliderStateList,settingsActions)
+    Body(Modifier.padding(), sliderStateList, settingsActions)
 }

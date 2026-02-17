@@ -1,6 +1,5 @@
 package com.gillhad.settings
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.gillhad.navigation.NavigationEvents
 import com.gillhad.navigation.NavigationManager
@@ -13,25 +12,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(private val navigationManager: NavigationManager) : ViewModel() {
+
     private val _musicState = MutableStateFlow<Float>(100f)
     val musicState: StateFlow<Float> = _musicState.asStateFlow()
 
     private val _sfxState = MutableStateFlow<Float>(100f)
     val sfxState: StateFlow<Float> = _sfxState.asStateFlow()
 
-
-
-    fun setMusicVolume(newValue: Float){
-
+    fun setMusicVolume(newValue: Float) {
     }
 
-    fun setSfxVolume(newValue: Float){
-
+    fun setSfxVolume(newValue: Float) {
     }
 
-    fun navigate(url: NavigationRoute){
+    fun navigate(url: NavigationRoute) {
         navigationManager.navigate(NavigationEvents.NavigateTo(url))
     }
-
-
 }
