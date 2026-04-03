@@ -6,11 +6,21 @@
     <string name="history">History</string>
     <string name="settings">Settings</string>
 
+    //Common
+    <string name="ok">Ok</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
     //Settings
     <string name="account">Account</string>
     <string name="terms">Terms and Coditions</string>
     <string name="privacy">Privacy</string>
     <string name="contact">Contacto</string>
 
+    //GENERAL
+    <string name="play">Play</string>
 
+    //DIALOGS
+    <string name="dialog_title">Dialog title</string>
+    <string name="dialog_content1">Dialog title</string>
 </resources>

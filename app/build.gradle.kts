@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.gillhad.color_mind_challenge"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -47,6 +47,8 @@ dependencies {
     implementation(project(":main"))
     implementation(project(":designSystem"))
     implementation(project(":navigation"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 

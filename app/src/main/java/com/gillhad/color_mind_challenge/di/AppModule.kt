@@ -10,9 +10,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
     @Provides
     @Singleton
-    fun provideNavitaionManager(): NavigationManager{
+    fun provideNavigationManager(): NavigationManager {
         return NavigationManager()
     }
 }

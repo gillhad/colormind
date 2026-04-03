@@ -12,7 +12,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":designSystem"))
     implementation(project(":navigation"))
     implementation(project(":settings"))
+    implementation(project(":game"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 
