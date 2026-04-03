@@ -78,15 +78,8 @@ class GameViewModel @Inject constructor(
     }
 
     private fun updateSpotSelected(spot: Int?) {
-        if (spot == _uiState.value.spotSelected) {
-            _uiState.update {
-                it.copy(spotSelected = null)
-            }
-            _uiState.value.spotSelected = null
-        } else {
-            _uiState.update {
-                it.copy(spotSelected = spot)
-            }
+        _uiState.update {
+            it.copy(spotSelected = if (spot == _uiState.value.spotSelected) null else spot)
         }
     }
 
@@ -160,7 +153,6 @@ class GameViewModel @Inject constructor(
                 hasWon = true
             )
         }
-        initState()
     }
 
     private fun resetGame() {

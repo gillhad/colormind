@@ -45,6 +45,18 @@ abstract class MockColorRow {
             )
         }
 
+        fun getDifferentPuzzleMock(): ColorRow {
+            return ColorRow(
+                mutableListOf(
+                    getCustomSpotColorMock(PuzzleColors.BLUE),
+                    getCustomSpotColorMock(PuzzleColors.YELLOW),
+                    getCustomSpotColorMock(PuzzleColors.PURPLE),
+                    getCustomSpotColorMock(PuzzleColors.RED),
+                    getCustomSpotColorMock(PuzzleColors.GREEN)
+                )
+            )
+        }
+
         fun getColorRowValidated(): ColorRow {
             return ColorRow(
                 mutableListOf(
