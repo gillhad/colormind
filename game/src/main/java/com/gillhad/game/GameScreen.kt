@@ -1,5 +1,6 @@
 package com.gillhad.game
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -46,25 +48,46 @@ import com.gillhad.designsystem.theme.BoxSize
 import com.gillhad.designsystem.theme.Spacing
 import com.gillhad.designsystem.theme.outlineDark
 import com.gillhad.designsystem.theme.secondaryDark
+import com.gillhad.domain.models.ColorRow
+import com.gillhad.domain.models.SpotColor
 import com.gillhad.game.models.GameScreenActions
 import com.gillhad.game.models.GameScreenState
+import com.gillhad.shared.R
 import com.gillhad.shared.composables.OverflowBox
 import com.gillhad.shared.enums.PuzzleColors
-import com.vueling.domain.models.ColorRow
-import com.vueling.domain.models.SpotColor
+import com.gillhad.shared.enums.ScreenStates
 
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
     val state by gameViewModel.uiState.collectAsState()
     val actions = gameViewModel.actions
 
+    val context = LocalContext.current
+
     Scaffold { padding ->
-        GameView(Modifier.padding(padding), state, actions)
+        when (state.uiState.screenStates) {
+            ScreenStates.LOADING -> {}
+            else -> GameView(context, Modifier.padding(padding), state, actions)
+        }
     }
 }
 
 @Composable
-fun GameView(modifier: Modifier, state: GameScreenState, actions: GameScreenActions) {
+fun GameView(context: Context, modifier: Modifier, state: GameScreenState, actions: GameScreenActions) {
+    if (state.uiState.showWinDialog) {
+        GameDialogs().AcceptDialog(
+            bodyText = "has ganado"
+        ) {
+            actions.resetGame()
+        }
+    }
+    if (state.uiState.showLostDialog) {
+        GameDialogs().AcceptDialog(
+            bodyText = "has perdido"
+        ) {
+            actions.resetGame()
+        }
+    }
     Body(state, actions)
 }
 
@@ -139,10 +162,6 @@ private fun ColorsView(listColorRows: List<ColorRow>) {
             }
         }
     }
-}
-
-@Composable
-private fun ColumnReviewedRows(listColorRow: MutableList<ColorRow>) {
 }
 
 @Composable
@@ -243,7 +262,8 @@ private fun ColorSelector(colorsList: List<PuzzleColors>, spotSelected: Int?, ac
 @Composable
 private fun ConfirmButton(onValidateRow: () -> Unit) {
     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        CMElevatedButton(Modifier, stringResource(com.gillhad.shared.R.string.play)) { onValidateRow() }
+        CMElevatedButton(Modifier, stringResource(R.string.play)) { onValidateRow() }
     }
 }
+
 

@@ -1,4 +1,4 @@
-package com.vueling.domain.models
+package com.gillhad.domain.models
 
 import com.gillhad.shared.enums.PuzzleColors
 

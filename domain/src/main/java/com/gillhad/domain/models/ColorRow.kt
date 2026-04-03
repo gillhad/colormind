@@ -1,4 +1,4 @@
-package com.vueling.domain.models
+package com.gillhad.domain.models
 
 data class ColorRow(
     val spotList: List<SpotColor>,
@@ -12,5 +12,11 @@ data class ColorRow(
 
     fun isValidated(): Boolean {
         return validationList != null
+    }
+
+    override fun toString(): String {
+        val colors = mutableListOf<String>()
+        spotList.map { colors.add(it.selectedColor.name) }
+        return colors.toString()
     }
 }
