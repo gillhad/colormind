@@ -8,12 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gillhad.main"
+    namespace = "com.gillhad.gameoptions"
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 26
-
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -22,10 +21,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -49,12 +45,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
-    implementation(project(":designSystem"))
-    implementation(project(":navigation"))
-    implementation(project(":settings"))
-    implementation(project(":game"))
-    implementation(project(":game-options"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.main)
 
@@ -71,4 +61,8 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.gms.fonts)
+
+    //DEBUG
+    kspDebug(libs.hilt.compiler)
+    debugImplementation(libs.bundles.debug)
 }

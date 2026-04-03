@@ -65,7 +65,7 @@ fun HomeOptions(onNavigate: (NavigationRoute) -> Unit) {
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally) {
         CMElevatedButton(Modifier,"DAILY") { onNavigate(NavigationRoute.DailyGame) }
         CMElevatedButton(Modifier,"GAME") { onNavigate(NavigationRoute.GameRoute) }
-        CMElevatedButton(Modifier,"GAME OPTIONS") { onNavigate(NavigationRoute.GameModeRoute) }
+        CMElevatedButton(Modifier,"GAME OPTIONS") { onNavigate(NavigationRoute.GameOptionsRoute) }
         CMElevatedButton(Modifier,"HISTORY") { onNavigate(NavigationRoute.HistoryRoute) }
         CMElevatedButton(Modifier,"SETTINGS") { onNavigate(NavigationRoute.SettingsRoute) }
     }

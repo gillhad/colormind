@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.gillhad.game.GameScreen
+import com.gillhad.gameoptions.presentation.GameOptionsScreen
 import com.gillhad.navigation.NavigationRoute
 import com.gillhad.settings.SettingsScreen
 
@@ -19,8 +20,8 @@ fun NavGraphBuilder.mainNavGraph(navHostController: NavHostController) {
             gameViewModel = hiltViewModel()
         )
     }
-    composable<NavigationRoute.GameModeRoute> {
-
+    composable<NavigationRoute.GameOptionsRoute> {
+        GameOptionsScreen()
     }
     composable<NavigationRoute.SettingsRoute> {
         SettingsScreen(
