@@ -1,10 +1,10 @@
-package com.vueling.domain
+package com.gillhad.domain
 
+import com.gillhad.domain.models.ColorRow
+import com.gillhad.domain.models.SpotColor
 import com.gillhad.shared.enums.DifficultyLevels
 import com.gillhad.shared.enums.PuzzleColors
 import com.gillhad.shared.enums.SpotAmountLevels
-import com.vueling.domain.models.ColorRow
-import com.vueling.domain.models.SpotColor
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.time.Clock

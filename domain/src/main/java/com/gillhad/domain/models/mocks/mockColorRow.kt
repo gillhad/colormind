@@ -1,8 +1,8 @@
-package com.vueling.domain.models.mocks
+package com.gillhad.domain.models.mocks
 
 import com.gillhad.shared.enums.PuzzleColors
-import com.vueling.domain.models.ColorRow
-import com.vueling.domain.models.SpotColor
+import com.gillhad.domain.models.ColorRow
+import com.gillhad.domain.models.SpotColor
 
 abstract class MockColorRow {
     companion object {

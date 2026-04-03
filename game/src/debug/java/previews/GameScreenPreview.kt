@@ -4,12 +4,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.gillhad.game.GameView
 import com.gillhad.game.models.GameScreenActions
 import com.gillhad.game.models.GameScreenState
 import com.gillhad.shared.enums.PuzzleColors
-import com.vueling.domain.models.mocks.MockColorRow
+import com.gillhad.domain.models.mocks.MockColorRow
 
 @Preview
 @Composable
@@ -31,9 +32,12 @@ fun GameScreenPreview() {
     val fakeState = GameScreenActions(
         onValidateRow = {},
         onSpotSelected = { },
-        onColorSelected = {}
+        onColorSelected = {},
+        manageWinDialog = {},
+        resetGame = {},
+        backToMenu = {}
     )
     Scaffold { innerPadding ->
-        GameView(Modifier.padding(innerPadding), fakeData, fakeState)
+        GameView(context = LocalContext.current, Modifier.padding(innerPadding), fakeData, fakeState)
     }
 }

@@ -1,12 +1,14 @@
 package com.gillhad.game
 
 import androidx.lifecycle.ViewModel
+import com.gillhad.domain.GameRules
+import com.gillhad.domain.PuzzleManager
+import com.gillhad.domain.repositories.PreferenceRepository
 import com.gillhad.game.models.GameScreenActions
 import com.gillhad.game.models.GameScreenState
 import com.gillhad.shared.enums.DifficultyLevels.EASY
 import com.gillhad.shared.enums.PuzzleColors
 import com.gillhad.shared.enums.SpotAmountLevels.FOUR_SPOTS
-import com.vueling.domain.PuzzleManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +17,15 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(var puzzleManager: PuzzleManager) : ViewModel() {
+class GameViewModel @Inject constructor(
+    var puzzleManager: PuzzleManager,
+    private val preferenceRepository: PreferenceRepository
+) : ViewModel() {
+
+    private val maxAttempts: Int
+        get() = preferenceRepository.getInt("max_attempts")
+
+    private val gameRules: GameRules by lazy { GameRules(2) }
 
     private val _uiState = MutableStateFlow(GameScreenState())
     var uiState: StateFlow<GameScreenState> = _uiState.asStateFlow()
@@ -27,7 +37,10 @@ class GameViewModel @Inject constructor(var puzzleManager: PuzzleManager) : View
     val actions = GameScreenActions(
         onValidateRow = ::validateRow,
         onSpotSelected = ::updateSpotSelected,
-        onColorSelected = ::updateColorSelected
+        onColorSelected = ::updateColorSelected,
+        manageWinDialog = ::wonGame,
+        resetGame = ::resetGame,
+        backToMenu = {}
     )
 
     private fun initState() {
@@ -62,7 +75,6 @@ class GameViewModel @Inject constructor(var puzzleManager: PuzzleManager) : View
 
             )
         }
-        println(_uiState.value.currentPuzzle.spotList.size)
     }
 
     private fun updateSpotSelected(spot: Int?) {
@@ -114,14 +126,65 @@ class GameViewModel @Inject constructor(var puzzleManager: PuzzleManager) : View
         println(
             "size de listcolors ${_uiState.value.listColorRows.size}"
         )
+        isGameFinished()
     }
 
+    //Check if user hass added all the colors to the current row
     private fun checkAllSpotsFilled(): Boolean {
         _uiState.value.currentRow.spotList.forEach { spot ->
             if (spot.selectedColor == PuzzleColors.DEFAULT) {
                 return false
             }
         }
+        //TODO: add some UI indication that not all spots are filled
         return true
+    }
+
+    private fun isGameFinished() {
+        println("atempts que tenemos: ${_uiState.value.attempts}")
+        _uiState.update {
+            it.copy(attempts = it.attempts + 1)
+        }
+        if (gameRules.hasWinGame(_uiState.value.listColorRows.last(), _uiState.value.currentPuzzle)) {
+            wonGame()
+        } else if (gameRules.hasLostGame(_uiState.value.attempts)) {
+            println("pues hemos perdido el game")
+            lostGame()
+        }
+    }
+
+    private fun wonGame() {
+        _uiState.update {
+            it.copy(
+                uiState = it.uiState.copy(showWinDialog = !it.uiState.showWinDialog),
+                hasWon = true
+            )
+        }
+        initState()
+    }
+
+    private fun resetGame() {
+        generateNewPuzzle()
+        _uiState.update {
+            it.copy(
+                uiState = it.uiState.copy(
+                    showWinDialog = false,
+                    showLostDialog = false,
+                ),
+                hasLost = false,
+                hasWon = false,
+                attempts = 0,
+                listColorRows = emptyList()
+            )
+        }
+    }
+
+    private fun lostGame() {
+        _uiState.update {
+            it.copy(
+                hasLost = true,
+                uiState = it.uiState.copy(showLostDialog = !it.uiState.showLostDialog)
+            )
+        }
     }
 }
