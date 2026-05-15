@@ -1,6 +1,7 @@
 package com.gillhad.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 
 val primaryLight = Color(0xFF276A49)
 val onPrimaryLight = Color(0xFFFFFFFF)
@@ -82,6 +83,12 @@ val spotColorPurple = Color(0xFF673AB7)
 val spotColorBlue = Color(0xFF00BCD4)
 val spotColorValid = Color(0xFF6DBB70)
 val spotColorClose = Color(0xFFFF9800)
+
+const val backgroundColorPreview = 0xFFF6FBF4
+
+fun colorToLong(color: Color): Long {
+    return color.toArgb().toLong()
+}
 
 
 
